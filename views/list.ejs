@@ -1,0 +1,30 @@
+
+<%-include("header")%>
+
+<div class="box" id="heading">
+    <h1><%=listTitle%></h1>
+    <h3><%=dateAtual%></h3>
+</div>
+
+<div class="box">
+    <% for(var i=0;i < itens.length ; i++){ %>
+        <div class="card">
+            <div class="item">
+                <input type="checkbox">
+                <p> <%= itens[i] %> </p>
+            </div>
+            <%var removerList= {title: listTitle, number: i}%>
+            <div class="remove">
+                <form class="buttonRemove" action="/remove" name="remove2" method="post">
+                    <button class="buttonRemove" type="submit" name="remove" value = <%= JSON.stringify(removerList) %>>X</button>
+                </form>
+            </div> 
+        </div>
+    <% } %>
+
+    <form class="addItem" action="/" method="post">
+        <input type="text" name="newItem" placeholder="Add New Item" autocomplete="off">
+        <button type="submit" name="list" value=<%= listTitle %>>+</button>
+    </form>  
+</div>
+<%-include("footer")%>
