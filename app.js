@@ -10,7 +10,7 @@ app.set("view engine", "ejs"); //para o EJS Funcionar
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-const listItem = ["Buy Food", "Cock Food", "Eat Food"];
+const listItem = [];
 const workList = [];
 
 app.get("/", function(req, res){
