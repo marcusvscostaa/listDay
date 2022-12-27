@@ -16,7 +16,6 @@ app.set("view engine", "ejs"); //para o EJS Funcionar
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb+srv://marcusvscosta:Le2fRkOPErFcchyP@cluster0.wcibe94.mongodb.net", { useNewUrlParser: true})
 let listItem = []
 
 const itemSchema = new mongoose.Schema(
