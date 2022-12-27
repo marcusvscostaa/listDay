@@ -3,33 +3,75 @@ const { render } = require("ejs");
 const express = require("express");
 const app = express();
 const date = require(__dirname+"/date.js")
+const mongoose = require("mongoose")
+
+mongoose.set("strictQuery", false);
+
 const day = date.getDate();
+let list = []
+let statusAdd = "false";
 
 app.set("view engine", "ejs"); //para o EJS Funcionar
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-const listItem = [];
-const workList = [];
+mongoose.connect("mongodb+srv://marcusvscosta:Le2fRkOPErFcchyP@cluster0.wcibe94.mongodb.net", { useNewUrlParser: true})
+let listItem = []
+
+const itemSchema = new mongoose.Schema(
+    {
+        name: {
+            type: String,
+            require: [true, "Please complete the item"]
+        }
+    }
+)
+
+const Item = mongoose.model("Item", itemSchema)
+
+function newItem(item){
+    const newItem = new Item({
+        name: item
+    })
+
+    newItem.save();
+}
+
 
 app.get("/", function(req, res){
-    
-    res.render("list", {listTitle: "List", dateAtual: day, itens: listItem});
+    listItem = []
+    Item.find(function(err, rItens){
+        if(err){
+            console.log(err);
+        }else{
+            rItens.forEach(function(rItem){
+                listItem.push(rItem.name)
+            })
+            list = listItem;
+            console.log(listItem);
+            res.render("list", {listTitle: "List", dateAtual: day, itens: listItem, status: statusAdd});
+            statusAdd = "false";
+        }
+    })
 })
 
 app.post("/", function(req, res){
 
     const item = req.body.newItem
 
-    if(req.body.list === "Work"){
-        workList.push(item)
-        res.redirect("/work")
+    if(item === '' || item === null){
+        //workList.push(item)
+        statusAdd = "true";
+        res.redirect("/")
     }else{
-        listItem.push(item);
+        //listItem.push(item);
+        newItem(item);
         console.log(listItem);
         res.redirect("/")
         console.log(req.body.list);
+        statusAdd = "false";
+
     }
     console.log(req.body.remove)
    
@@ -44,17 +86,21 @@ app.get("/about", function(req, res){
 })
 
 app.post("/remove", function(req, res){
-    listRemove = JSON.parse(req.body.remove);
-    let itemRemove = parseInt(listRemove.number);
+    const number = req.body.remove;
 
-    if(listRemove.title === "Work"){     
-        workList.splice(itemRemove, 1);
-        res.redirect("/work")
-    }else{
-        listItem.splice(itemRemove, 1);
-        res.redirect("/")
-    }
-    console.log(itemRemove);
+    Item.deleteOne({name: list[number]}, function(err){
+        if(err){
+            console.log(err);
+        }else{
+        console.log("Sucesse delete Item");
+        }
+    });
+
+    console.log(list[number]);
+  
+
+     
+    res.redirect("/")
 })
 
 app.listen(3000, function(){

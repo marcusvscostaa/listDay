@@ -126,3 +126,11 @@ footer {
 form.addItem button{
   padding: 10px;
 }
+
+p.alertItem{
+  font-family: sans-serif;
+  padding: 5px 30px;
+  color: red; 
+  font-size: 15px; 
+  background-color: yellow;
+}

@@ -13,10 +13,9 @@
                 <input type="checkbox">
                 <p> <%= itens[i] %> </p>
             </div>
-            <%var removerList= {title: listTitle, number: i}%>
             <div class="remove">
                 <form class="buttonRemove" action="/remove" name="remove2" method="post">
-                    <button class="buttonRemove" type="submit" name="remove" value = <%= JSON.stringify(removerList) %>>X</button>
+                    <button class="buttonRemove" type="submit" name="remove" value = <%= i %>>X</button>
                 </form>
             </div> 
         </div>
@@ -25,6 +24,10 @@
     <form class="addItem" action="/" method="post">
         <input type="text" name="newItem" placeholder="Add New Item" autocomplete="off">
         <button type="submit" name="list" value=<%= listTitle %>>+</button>
-    </form>  
+    </form>
+    <%if(status === "true"){%>
+        <%var mensage = "*Campo não preenchidos"%>
+        <p class="alertItem"><%=mensage%></p>
+    <%}%>  
 </div>
 <%-include("footer")%>
