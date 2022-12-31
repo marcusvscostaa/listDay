@@ -17,7 +17,12 @@ app.set("view engine", "ejs"); //para o EJS Funcionar
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb+srv://" + process.env.USER_NAME + ":" + process.env.PASSWORD + "@cluster0.wcibe94.mongodb.net/todolistDB", { useNewUrlParser: true})
+const user = process.env.USER_NAME;
+const password = process.env.PASSWORD;
+
+mongoose.connect("mongodb+srv://" + user + ":" + password + "@cluster0.wcibe94.mongodb.net/todolistDB", { useNewUrlParser: true})
+
+
 
 const itemSchema = new mongoose.Schema(
     {
