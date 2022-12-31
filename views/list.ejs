@@ -3,23 +3,23 @@
 
 <div class="box" id="heading">
     <h1><%=listTitle%></h1>
-    <h3><%=dateAtual%></h3>
 </div>
 
 <div class="box">
-    <% for(var i=0;i < itens.length ; i++){ %>
+    <% itens.forEach(function(item, i){ %>
         <div class="card">
             <div class="item">
                 <input type="checkbox">
-                <p> <%= itens[i] %> </p>
+                <p> <%= item.name %> </p>
             </div>
             <div class="remove">
                 <form class="buttonRemove" action="/remove" name="remove2" method="post">
-                    <button class="buttonRemove" type="submit" name="remove" value = <%= i %>>X</button>
+                    <button class="buttonRemove" type="submit" name="remove" value = <%= item._id %>>X</button>
+                    <input type="hidden" name="titleName" value=<%= listTitle %>> 
                 </form>
             </div> 
         </div>
-    <% } %>
+    <% }) %>
 
     <form class="addItem" action="/" method="post">
         <input type="text" name="newItem" placeholder="Add New Item" autocomplete="off">
