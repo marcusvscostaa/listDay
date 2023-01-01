@@ -95,7 +95,12 @@ button.buttonRemove{
   cursor: pointer;
 }
 button.buttonRemove:hover{
+  transition : 487ms;
+  transform : translateY(-0px);
+  scale: 1.1;
   background-color: red;
+  color: #ffffff;
+  box-shadow: 3px 3px 8px -4px black;
 }
 
 
